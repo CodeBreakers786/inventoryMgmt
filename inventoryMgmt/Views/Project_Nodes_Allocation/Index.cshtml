@@ -22,19 +22,19 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Node.rack_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Node.rack_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "badge badge-primary" })
+            @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "badge badge-info" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "badge badge-danger" })
+        </td>
+    </tr>
     }
 
 </table>

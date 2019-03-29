@@ -24,10 +24,10 @@
                 @Html.DisplayFor(modelItem => item.name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new{ @class="badge badge-primary" })
+                @Html.ActionLink("Details", "Details", new { id = item.id } , new { @class = "badge badge-info" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.id }, new{ @class = "badge badge-danger" })
+            </td> 
         </tr>
     }
 
