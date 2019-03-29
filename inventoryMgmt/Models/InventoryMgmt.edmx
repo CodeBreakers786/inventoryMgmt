@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="inventoryMgmtPocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nodes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rack_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ip" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="originalHostName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="mac" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ipmi" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="states" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="comment" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project_Nodes_Allocation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="node_id" Type="nvarchar" MaxLength="50" />
+          <Property Name="project_id" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="team_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Racks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DC_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Nodes_Racks">
+          <End Role="Racks" Type="Self.Racks" Multiplicity="1" />
+          <End Role="Nodes" Type="Self.Nodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Racks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nodes">
+              <PropertyRef Name="rack_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Nodes_Allocation_Nodes">
+          <End Role="Nodes" Type="Self.Nodes" Multiplicity="0..1" />
+          <End Role="Project_Nodes_Allocation" Type="Self.Project_Nodes_Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nodes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project_Nodes_Allocation">
+              <PropertyRef Name="node_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Nodes_Allocation_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="Project_Nodes_Allocation" Type="Self.Project_Nodes_Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project_Nodes_Allocation">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Racks_DC">
+          <End Role="DC" Type="Self.DC" Multiplicity="1" />
+          <End Role="Racks" Type="Self.Racks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DC">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Racks">
+              <PropertyRef Name="DC_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="inventoryMgmtPocModelStoreContainer">
+          <EntitySet Name="DC" EntityType="Self.DC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nodes" EntityType="Self.Nodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project_Nodes_Allocation" EntityType="Self.Project_Nodes_Allocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Racks" EntityType="Self.Racks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Nodes_Racks" Association="Self.FK_Nodes_Racks">
+            <End Role="Racks" EntitySet="Racks" />
+            <End Role="Nodes" EntitySet="Nodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Nodes_Allocation_Nodes" Association="Self.FK_Project_Nodes_Allocation_Nodes">
+            <End Role="Nodes" EntitySet="Nodes" />
+            <End Role="Project_Nodes_Allocation" EntitySet="Project_Nodes_Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Nodes_Allocation_Projects" Association="Self.FK_Project_Nodes_Allocation_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Project_Nodes_Allocation" EntitySet="Project_Nodes_Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Teams" Association="Self.FK_Projects_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Racks_DC" Association="Self.FK_Racks_DC">
+            <End Role="DC" EntitySet="DC" />
+            <End Role="Racks" EntitySet="Racks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="inventoryMgmtPocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Racks" Relationship="Self.FK_Racks_DC" FromRole="DC" ToRole="Racks" />
+        </EntityType>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="rack_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="originalHostName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="mac" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ipmi" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="states" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rack" Relationship="Self.FK_Nodes_Racks" FromRole="Nodes" ToRole="Racks" />
+          <NavigationProperty Name="Project_Nodes_Allocation" Relationship="Self.FK_Project_Nodes_Allocation_Nodes" FromRole="Nodes" ToRole="Project_Nodes_Allocation" />
+        </EntityType>
+        <EntityType Name="Project_Nodes_Allocation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="node_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="project_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Node" Relationship="Self.FK_Project_Nodes_Allocation_Nodes" FromRole="Project_Nodes_Allocation" ToRole="Nodes" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_Project_Nodes_Allocation_Projects" FromRole="Project_Nodes_Allocation" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="team_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project_Nodes_Allocation" Relationship="Self.FK_Project_Nodes_Allocation_Projects" FromRole="Projects" ToRole="Project_Nodes_Allocation" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Projects_Teams" FromRole="Projects" ToRole="Teams" />
+        </EntityType>
+        <EntityType Name="Rack">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DC_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DC" Relationship="Self.FK_Racks_DC" FromRole="Racks" ToRole="DC" />
+          <NavigationProperty Name="Nodes" Relationship="Self.FK_Nodes_Racks" FromRole="Racks" ToRole="Nodes" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Teams" FromRole="Teams" ToRole="Projects" />
+        </EntityType>
+        <Association Name="FK_Racks_DC">
+          <End Role="DC" Type="Self.DC" Multiplicity="1" />
+          <End Role="Racks" Type="Self.Rack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DC">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Racks">
+              <PropertyRef Name="DC_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nodes_Racks">
+          <End Role="Racks" Type="Self.Rack" Multiplicity="1" />
+          <End Role="Nodes" Type="Self.Node" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Racks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nodes">
+              <PropertyRef Name="rack_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Nodes_Allocation_Nodes">
+          <End Role="Nodes" Type="Self.Node" Multiplicity="0..1" />
+          <End Role="Project_Nodes_Allocation" Type="Self.Project_Nodes_Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nodes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project_Nodes_Allocation">
+              <PropertyRef Name="node_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Nodes_Allocation_Projects">
+          <End Role="Projects" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Project_Nodes_Allocation" Type="Self.Project_Nodes_Allocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project_Nodes_Allocation">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Teams">
+          <End Role="Teams" Type="Self.Team" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="inventoryMgmtPocEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DCs" EntityType="Self.DC" />
+          <EntitySet Name="Nodes" EntityType="Self.Node" />
+          <EntitySet Name="Project_Nodes_Allocation" EntityType="Self.Project_Nodes_Allocation" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Racks" EntityType="Self.Rack" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="FK_Racks_DC" Association="Self.FK_Racks_DC">
+            <End Role="DC" EntitySet="DCs" />
+            <End Role="Racks" EntitySet="Racks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nodes_Racks" Association="Self.FK_Nodes_Racks">
+            <End Role="Racks" EntitySet="Racks" />
+            <End Role="Nodes" EntitySet="Nodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Nodes_Allocation_Nodes" Association="Self.FK_Project_Nodes_Allocation_Nodes">
+            <End Role="Nodes" EntitySet="Nodes" />
+            <End Role="Project_Nodes_Allocation" EntitySet="Project_Nodes_Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Nodes_Allocation_Projects" Association="Self.FK_Project_Nodes_Allocation_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Project_Nodes_Allocation" EntitySet="Project_Nodes_Allocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Teams" Association="Self.FK_Projects_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="inventoryMgmtPocModelStoreContainer" CdmEntityContainer="inventoryMgmtPocEntities">
+          <EntitySetMapping Name="DCs">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.DC">
+              <MappingFragment StoreEntitySet="DC">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nodes">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.Node">
+              <MappingFragment StoreEntitySet="Nodes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rack_id" ColumnName="rack_id" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="originalHostName" ColumnName="originalHostName" />
+                <ScalarProperty Name="mac" ColumnName="mac" />
+                <ScalarProperty Name="ipmi" ColumnName="ipmi" />
+                <ScalarProperty Name="states" ColumnName="states" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project_Nodes_Allocation">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.Project_Nodes_Allocation">
+              <MappingFragment StoreEntitySet="Project_Nodes_Allocation">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="node_id" ColumnName="node_id" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="team_id" ColumnName="team_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Racks">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.Rack">
+              <MappingFragment StoreEntitySet="Racks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="DC_id" ColumnName="DC_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="inventoryMgmtPocModel.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
