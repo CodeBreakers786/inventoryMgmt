@@ -53,6 +53,7 @@ namespace inventoryMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
+                node.id = Utilities.Utility.getUniqueKey();
                 db.Nodes.Add(node);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

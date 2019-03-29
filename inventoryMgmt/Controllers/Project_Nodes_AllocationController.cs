@@ -54,6 +54,7 @@ namespace inventoryMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
+                project_Nodes_Allocation.id = Utilities.Utility.getUniqueKey();
                 db.Project_Nodes_Allocation.Add(project_Nodes_Allocation);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

@@ -53,6 +53,7 @@ namespace inventoryMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
+                rack.id = Utilities.Utility.getUniqueKey();
                 db.Racks.Add(rack);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

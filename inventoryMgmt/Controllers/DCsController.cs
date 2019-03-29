@@ -51,6 +51,7 @@ namespace inventoryMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
+                dC.id = Utilities.Utility.getUniqueKey();
                 db.DCs.Add(dC);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

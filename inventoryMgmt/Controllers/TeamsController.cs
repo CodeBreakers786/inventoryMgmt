@@ -51,6 +51,7 @@ namespace inventoryMgmt.Controllers
         {
             if (ModelState.IsValid)
             {
+                team.id = Utilities.Utility.getUniqueKey();
                 db.Teams.Add(team);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
