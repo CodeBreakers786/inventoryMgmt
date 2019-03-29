@@ -197,6 +197,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NodesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\Project_Nodes_AllocationController.cs" />
     <Compile Include="Controllers\RacksController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -338,6 +339,11 @@
     <Content Include="Views\Nodes\Details.cshtml" />
     <Content Include="Views\Nodes\Edit.cshtml" />
     <Content Include="Views\Nodes\Index.cshtml" />
+    <Content Include="Views\Project_Nodes_Allocation\Create.cshtml" />
+    <Content Include="Views\Project_Nodes_Allocation\Delete.cshtml" />
+    <Content Include="Views\Project_Nodes_Allocation\Details.cshtml" />
+    <Content Include="Views\Project_Nodes_Allocation\Edit.cshtml" />
+    <Content Include="Views\Project_Nodes_Allocation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
