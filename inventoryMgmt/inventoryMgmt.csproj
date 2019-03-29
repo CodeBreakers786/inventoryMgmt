@@ -195,6 +195,7 @@
     <Compile Include="Controllers\DCsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NodesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RacksController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
@@ -332,6 +333,11 @@
     <Content Include="Views\Racks\Details.cshtml" />
     <Content Include="Views\Racks\Edit.cshtml" />
     <Content Include="Views\Racks\Index.cshtml" />
+    <Content Include="Views\Nodes\Create.cshtml" />
+    <Content Include="Views\Nodes\Delete.cshtml" />
+    <Content Include="Views\Nodes\Details.cshtml" />
+    <Content Include="Views\Nodes\Edit.cshtml" />
+    <Content Include="Views\Nodes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,74 @@
+﻿@model inventoryMgmt.Models.Node
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Node</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.originalHostName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.originalHostName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mac)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mac)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ipmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ipmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.states)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.states)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rack.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rack.name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
