@@ -11,7 +11,8 @@ namespace inventoryMgmt.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Node
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,12 +22,19 @@ namespace inventoryMgmt.Models
         }
     
         public string id { get; set; }
+        [Required]
         public string rack_id { get; set; }
+        [Required]
         public string ip { get; set; }
+        [Required]
         public string originalHostName { get; set; }
+        [Required]
         public string mac { get; set; }
+        [Required]
         public string ipmi { get; set; }
+        [Required]
         public string states { get; set; }
+        [Required]
         public string comment { get; set; }
     
         public virtual Rack Rack { get; set; }

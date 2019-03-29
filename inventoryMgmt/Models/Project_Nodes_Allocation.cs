@@ -11,11 +11,14 @@ namespace inventoryMgmt.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Project_Nodes_Allocation
     {
         public string id { get; set; }
+        [Required]
         public string node_id { get; set; }
+        [Required]
         public string project_id { get; set; }
     
         public virtual Node Node { get; set; }
