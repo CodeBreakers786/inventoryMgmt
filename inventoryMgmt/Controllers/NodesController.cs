@@ -16,9 +16,56 @@ namespace inventoryMgmt.Controllers
         private inventoryMgmtPocEntities db = new inventoryMgmtPocEntities();
 
         // GET: Nodes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string DC_id = null, string rack_id = null, string project_id = null)
         {
-            var nodes = db.Nodes.Include(n => n.Rack);
+            IQueryable<Node> nodes = null;
+            //add the logic to filter based on the params given
+            if (DC_id != null && rack_id != null && project_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.rack_id == rack_id &&
+                    n.Rack.DC_id == DC_id &&
+                    n.Project_Nodes_Allocation.Any(a => a.project_id == project_id)
+                );
+            }
+            else if (DC_id != null && rack_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.rack_id == rack_id &&
+                    n.Rack.DC_id == DC_id
+                );
+            }
+            else if (DC_id != null && project_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.Rack.DC_id == DC_id &&
+                    n.Project_Nodes_Allocation.Any(a => a.project_id == project_id)
+                );
+            }
+            else if (rack_id != null && project_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.rack_id == rack_id &&
+                    n.Project_Nodes_Allocation.Any(a => a.project_id == project_id)
+                );
+            }
+            else if(DC_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.Rack.DC_id == DC_id);
+            }
+            else if (rack_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.rack_id == rack_id);
+            }
+            else if (project_id != null)
+            {
+                nodes = db.Nodes.Where(n => n.Project_Nodes_Allocation.Any(a => a.project_id == project_id));
+            }
+            else
+            {
+                nodes = db.Nodes.Include(n => n.Rack);
+            }
+
+            ViewBag.dcs = new SelectList(db.DCs, "id", "name");
+            ViewBag.projects = new SelectList(db.Projects, "id", "name");
+            ViewBag.racks = new SelectList(db.Racks, "id", "name");
+
             return View(await nodes.ToListAsync());
         }
 

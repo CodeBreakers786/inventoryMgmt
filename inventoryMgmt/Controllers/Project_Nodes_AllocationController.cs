@@ -40,7 +40,8 @@ namespace inventoryMgmt.Controllers
         // GET: Project_Nodes_Allocation/Create
         public ActionResult Create()
         {
-            ViewBag.node_id = new SelectList(db.Nodes, "id", "rack_id");
+            var nodes = db.Nodes.Where(node => node.Project_Nodes_Allocation.Count() == 0);
+            ViewBag.node_id = new SelectList(nodes, "id", "id");
             ViewBag.project_id = new SelectList(db.Projects, "id", "name");
             return View();
         }

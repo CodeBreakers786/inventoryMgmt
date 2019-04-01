@@ -5,8 +5,40 @@
 }
 
 <h3>Nodes</h3>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Filter Nodes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label><b>DC</b></label>
+                @Html.DropDownList("dcs", null, "select dc" , htmlAttributes: new { @class = "form-control col-md-5" })
+
+                <label><b>Rack</b></label>
+                @Html.DropDownList("racks", null, "select rack", htmlAttributes: new { @class = "form-control col-md-5" })
+
+                <label><b>Project</b></label>
+                @Html.DropDownList("projects", null, "select project", htmlAttributes: new { @class = "form-control col-md-5" })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="filterNodes" class="btn btn-primary">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+        Filter
+    </button>
 </p>
 <table class="table table-hover">
     <tr>
@@ -34,36 +66,75 @@
         <th>Actions</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ip)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.originalHostName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.mac)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ipmi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.states)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.comment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rack.name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "badge badge-primary" })
-            @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "badge badge-info" })
-            @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "badge badge-danger" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.originalHostName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mac)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ipmi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.states)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rack.name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "badge badge-primary" })
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "badge badge-info" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "badge badge-danger" })
+            </td>
+        </tr>
+    }
 
 </table>
 
+<script>
+    $('#filterNodes').click(function () {
+        //alert('filter called');
+        var dc = $("#dcs").val();
+        var rack = $("#racks").val();
+        var project = $("#projects").val();
+
+        console.log('dc selected is ' + dc);
+        console.log('rack selected is ' + rack);
+        console.log('project selected is ' + project);
+
+        var filter_url = "/nodes?";
+        var prevParam = false;
+
+        if (dc !== '') {
+            filter_url += "DC_id=" + dc;
+            prevParam = true;
+        }
+        if (rack !== '') {
+            if (prevParam) {
+                filter_url += "&";
+            }
+            filter_url += "rack_id=" + rack;
+            prevParam = true;
+        }
+        if (project !== '') {
+            if (prevParam) {
+                filter_url += "&";
+            }
+            filter_url += "project_id=" + project;
+        }
+
+        alert('filter url generated is ' + filter_url);
+
+        //navigate to the new url
+        window.location.href = filter_url;
+    });
+</script>
